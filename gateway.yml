@@ -1,0 +1,49 @@
+server:
+  port: 8085
+
+spring:
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - predicates:
+            - Path=/persons/**
+          filters:
+            - StripPrefix=0
+          uri: http://localhost:8084/persons
+
+        - predicates:
+            - Path=/companies/**
+          filters:
+              - StripPrefix=0
+          uri: http://localhost:8084/companies
+
+        - predicates:
+            - Path=/consumptions/**
+          filters:
+              - StripPrefix=0
+          uri: http://localhost:8081/consumptions
+
+        - predicates:
+            - Path=/products/**
+          filters:
+              - StripPrefix=0
+          uri: http://localhost:8083/products
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.ipc.netty: DEBUG
+    reactor.netty: DEBUG

@@ -1,0 +1,17 @@
+server:
+  port: 8081
+
+spring:
+  data:
+    mongodb:
+      database: consumptions
+      port: 27017
+      host: localhost
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+logging:
+   config: logback.xml
+   
+clientHost: http://localhost:8083
